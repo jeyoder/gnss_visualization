@@ -1,0 +1,23 @@
+<launch>
+
+  <node pkg="gnss_visualization"
+    type="gnss_visualization"
+    name="gnss_visualization"
+    output="screen">
+
+    <!-- 3D file -->
+    <param name="file_3d" value="balloon.stl"/>
+
+    <!-- Scale .stl file, if necessary -->
+    <rosparam param="scale_object"> 50</rosparam>
+
+    <!-- Topics to subscribe to object poses -->
+    <param name="object_position_topic" value="/yoga/Attitide2D"/>
+    <param name="object_attitude2d_topic" value="/yoga/Attitide2D"/>
+    <param name="object_pose_topic" value="/yoga/pose"/>
+
+  </node>
+
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find gnss_visualization)/rviz/rviz_config.rviz"/>
+</launch>
+
