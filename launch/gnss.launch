@@ -12,8 +12,6 @@
     <rosparam param="scale_object"> 50</rosparam>
 
     <!-- Topics to subscribe to object poses -->
-    <param name="object_position_topic" value="/yoga/Attitide2D"/>
-    <param name="object_attitude2d_topic" value="/yoga/Attitide2D"/>
     <param name="object_pose_topic" value="/yoga/pose"/>
 
   </node>

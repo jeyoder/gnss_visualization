@@ -126,9 +126,7 @@ int main(int argc, char** argv){
 
 	// Set subscribers to object and camera pose
 	ros::Subscriber obj_subs;
-	std::string obj_position_topic, obj_attitude2d_topic, obj_pose_topic;
-	node.getParam("object_position_topic", obj_position_topic);
-	node.getParam("object_attitude2d_topic", obj_attitude2d_topic);
+	std::string obj_pose_topic;
 	node.getParam("object_pose_topic", obj_pose_topic);
 	ros::Subscriber obj_pose_sub = node.subscribe<geometry_msgs::PoseStamped>(obj_pose_topic, 10, 
 		boost::bind(poseCallback, _1, object_marker));
