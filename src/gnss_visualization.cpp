@@ -178,7 +178,9 @@ Eigen::Vector3d rover_secondary_position_relative_enu;
 Eigen::Vector3d local_reference_refnet_enu;
 Eigen::Vector3d refnet_position_ecef;
 
-Eigen::Vector3d arena_position_refnet_enu(2, 0, 0);
+Eigen::Vector3d arena_position_refnet_ecef(-24.1875, 7.99, -4.95);
+Eigen::Vector3d arena_offset_enu(0, 0, -0.75);
+Eigen::Vector3d arena_position_refnet_enu(0, 0, 0);
 
 Eigen::Quaterniond rover_orientation_enu;
 
@@ -244,6 +246,9 @@ void on_sbrtk_message(const gbx_ros_bridge_msgs::SingleBaselineRTK msg) {
 
     rover_position_refnet_enu = xform * rover_position_refnet_ecef;
     rover_secondary_position_relative_enu = xform * rover_secondary_position_relative_ecef;
+
+    /* Calculate arena ENU position */
+    arena_position_refnet_enu = (xform * arena_position_refnet_ecef) + arena_offset_enu;
 
     if(!got_first_message) {
         local_reference_refnet_enu = rover_position_refnet_enu;
