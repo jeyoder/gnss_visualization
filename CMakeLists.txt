@@ -13,12 +13,14 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   sensor_msgs
   tf
+  gbx_ros_bridge_msgs
 )
 
 find_package(Eigen REQUIRED)
 
 catkin_package(
   DEPENDS Eigen
+  CATKIN_DEPENDS gbx_ros_bridge_msgs
 )
 
 ###########
@@ -38,3 +40,6 @@ add_executable(gnss_visualization
                src/helper.cpp)
 target_link_libraries(gnss_visualization ${catkin_LIBRARIES})
 add_dependencies(gnss_visualization ${catkin_EXPORTED_TARGETS})
+
+add_dependencies(gnss_visualization gbx_ros_bridge_msgs_gencpp)
+
