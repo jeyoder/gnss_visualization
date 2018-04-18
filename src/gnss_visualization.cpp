@@ -98,7 +98,7 @@ void poseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg,
 int main(int argc, char** argv){
 	ros::init(argc, argv, "gnss_visualization");
 	ros::NodeHandle node("~");
-	ROS_INFO("GNSS view started!");
+	ROS_INFO("gnss_visualization node started!");
 	const double rate = 200.0;
 	ros::Rate loop_rate(rate);
 
