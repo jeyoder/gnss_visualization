@@ -6,10 +6,10 @@
     output="screen">
 
     <!-- 3D file -->
-    <param name="file_3d" value="balloon.stl"/>
+    <param name="file_3d" value="yoga.stl"/>
 
     <!-- Scale .stl file, if necessary -->
-    <rosparam param="scale_object"> 50</rosparam>
+    <rosparam param="scale_object"> 1</rosparam>
 
     <!-- Topics to subscribe to object poses -->
     <param name="object_pose_topic" value="/yoga/pose"/>

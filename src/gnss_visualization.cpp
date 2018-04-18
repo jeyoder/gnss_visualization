@@ -18,7 +18,7 @@ ros::Time tf_pub(const Eigen::Vector3d &point,
   static tf::TransformBroadcaster br;
   // ROS_INFO("Publishing into frame: %s", msg->header.frame_id.c_str());
   tf::Transform transform;
-  transform.setOrigin( tf::Vector3(point[0], point[1], point[2]));
+  transform.setOrigin( tf::Vector3(point[0]+29.36, point[1]+3.754, point[2]+6.4056));
   tf::Quaternion q(quat.x(), quat.y(), quat.z(), quat.w());
   transform.setRotation(q);
   ros::Time time_now = ros::Time::now();
@@ -35,7 +35,7 @@ ros::Time tf_pub(const geometry_msgs::Point &point,
   static tf::TransformBroadcaster br;
   // ROS_INFO("Publishing into frame: %s", msg->header.frame_id.c_str());
   tf::Transform transform;
-  transform.setOrigin( tf::Vector3(point.x, point.y, point.z));
+  transform.setOrigin( tf::Vector3(point.x+29.36, point.y+3.754, point.z+6.4056));
   tf::Quaternion q(quat.x, quat.y, quat.z, quat.w);
   transform.setRotation(q);
   ros::Time time_now = ros::Time::now();
@@ -111,9 +111,9 @@ int main(int argc, char** argv){
 	node.getParam("scale_object", scale);
 	
 	// Get object mesh, offset and scale it
-	Eigen::Vector3d obj_offset(0.0, 0.0, 0.0);
+	Eigen::Vector3d obj_offset(0.0, -0.2, -0.2);
 	Eigen::Vector3d origin(0.0, 0.0, 0.0);
-	Eigen::Quaterniond q_0(1.0, 0.0, 0.0, 0.0);
+	Eigen::Quaterniond q_0(-1.0, 0.0, 0.0, 0.0);
 	std::string frame_id = "object";
 	std::string ns = "object";
 	double size = scale;
