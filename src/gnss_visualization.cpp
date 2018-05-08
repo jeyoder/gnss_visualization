@@ -25,6 +25,7 @@ Eigen::Vector3d     refnet_position_ecef;       /* Refnet antenna position in EC
 Eigen::Quaterniond  refnet_orientation_ecef;    /* On receipt of refnet_position_ecef, this quaternion is calculated from the Recef_enu matrix
                                                  * to generate an ENU frame centered at the refnet antenna */
 
+Eigen::Vector3d wrw_position_ecef(-742017.72, -5462221.485, 3198016.74);
 Eigen::Vector3d     wrw_position_refnet;        /* WRW (arena center) position in refnet ENU frame. */
 Eigen::Quaterniond  wrw_orientation_refnet;     /* WRW frame orientation in refnet ENU frame. */
 
@@ -88,13 +89,13 @@ void create_arena_marker(ros::NodeHandle node) {
     visualization_msgs::MarkerArray msg;
     visualization_msgs::Marker marker;
 
-    auto arena_frame = "arena";
+    auto arena_frame = "wrw";
 
-    marker.header.frame_id = "arena";
+    marker.header.frame_id = "wrw";
     marker.header.stamp = ros::Time::now();
 
     marker.type = visualization_msgs::Marker::CUBE;
-    marker.ns = "arena";
+    marker.ns = "wrw";
     marker.id = 0;
     marker.action = visualization_msgs::Marker::ADD;
 
@@ -119,7 +120,7 @@ void create_arena_marker(ros::NodeHandle node) {
 
     visualization_msgs::Marker chimney;
 
-    chimney.header.frame_id = "arena";
+    chimney.header.frame_id = "wrw";
     chimney.header.stamp = ros::Time::now();
 
     chimney.type = visualization_msgs::Marker::CUBE;
@@ -240,6 +241,8 @@ void publish_output() {
             "ecef", "refnet");
 
     /* publish wrw frame */
+    wrw_position_refnet = Recef2enu_refnet * (wrw_position_ecef - refnet_position_ecef);
+    wrw_orientation_refnet = Eigen::Quaterniond(arena_orientation_enu);
     publish_transform(wrw_position_refnet, wrw_orientation_refnet,
             "refnet", "wrw");
 
@@ -299,6 +302,7 @@ void on_sbrtk_message(const gbx_ros_bridge_msgs::SingleBaselineRTK msg) {
         refnet_position_ecef[2] = msg.rzRov - msg.rz;
 
         Recef2enu_refnet = get_ecef2enu_matrix(refnet_position_ecef);
+        refnet_orientation_ecef = Eigen::Quaterniond(Recef2enu_refnet);
 
         /* Rover ECEF position (relative to refnet) */
         Eigen::Vector3d primary_rel_ecef;
@@ -356,8 +360,8 @@ int main(int argc, char** argv){
     double sinTerm = sin(angle/2);
 	Eigen::Quaterniond q_0(cos(angle / 2), rot_axis[0] * sinTerm, rot_axis[1] * sinTerm, rot_axis[2] * sinTerm);
 
-	std::string frame_id = "rover";
-	std::string ns = "rover";
+	std::string frame_id = "yoga_primary";
+	std::string ns = "yoga_primary";
 	double size = scale;
 	int seq_number = 1;
 	MeshMarker(obj_offset, q_0, frame_id, ns, file_3d,
