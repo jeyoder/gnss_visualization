@@ -1,13 +1,62 @@
 #include "gnss_visualization/gnss_visualization.h"
 
+/* Coordinate frame tree! This is important *
+ *
+ *                  ecef          (ECEF origin (0,0,0))
+ *                   |
+ *                   V
+ *                 refnet         (ENU frame, centered on WRW0 antenna)
+ *                   |
+ *         +---------+-----+--> local ("Local" frame, generated on first position fix)
+ *         V               |       
+ *        wrw              V            ("WRW" frame - centered on arena, rotated 6ish degrees from ENU. Used for arena/machine games stuff)
+ *         |           yoga_primary     (Yoga GNSS primary position - refnet-relative ENU, based directly from SBRTK message data)
+ *         |               |
+ *         |               V
+ *         |           yoga_secondary   (Yoga GNSS secondary position - refnet-relative ENU(??), based on A2D message data) 
+ *         V
+ *       yoga_odom                      (Yoga local_odom data - CURRENTLY reported in the wrw frame (based on gps_kf or gpsImuNode data)            
+ */
+
+// global variables to keep track of camera / user state :)
+// Name scheme for these variables: (name)_(position|orientation)_(frame) 
+
+Eigen::Vector3d     refnet_position_ecef;       /* Refnet antenna position in ECEF frame. Currently populated on receipt of first SBRTK message */
+Eigen::Quaterniond  refnet_orientation_ecef;    /* On receipt of refnet_position_ecef, this quaternion is calculated from the Recef_enu matrix
+                                                 * to generate an ENU frame centered at the refnet antenna */
+
+Eigen::Vector3d     wrw_position_refnet;        /* WRW (arena center) position in refnet ENU frame. */
+Eigen::Vector3d     wrw_orientation_refnet;     /* WRW frame orientation in refnet ENU frame. */
+
+Eigen::Vector3d     yoga_primary_position_refnet; /* Yoga primary GNSS antenna position, in refnet ENU frame. Calculated on receipt of SBRTK message.
+                                                   * Note that the yoga_primary orientation is the identity quaternion, i.e. objects in the yoga_primary
+                                                   * frame retain ENU orientation. */
+
+Eigen::Vector3d     yoga_secondary_position_primary; /* Yoga secondary GNSS antenna position, in the primary antenna ENU frame. Calculated on A2D message. */
+
+Eigen::Matrix3d Recef2enu_refnet; /* Rotation matrix to ENU at refnet antenna. populated on receipt of sbrtk message. */
+
+/* Arena (WRW) frame parameters */
+Eigen::Vector3d arena_position_refnet_ecef(-24.1875, 7.99, -4.95);
+Eigen::Vector3d arena_offset_enu(0, 0, -0.75);
+const double thetaWRW = 6.2*(3.141592654)/180;
+const double wrwMat[] =  {
+    cos(thetaWRW), -sin(thetaWRW), 0,
+    sin(thetaWRW),  cos(thetaWRW), 0,
+    0,              0,             1 
+};
+Eigen::Matrix3d arena_orientation_enu(wrwMat);
+
+double rover_azimuth = 0;
+
+bool got_first_message = false;
+
 ros::Publisher pub_vis;	 // Publisher for visualization in RVIZ
 ros::Publisher arena_publisher;
 visualization_msgs::MarkerArray marker_array_msg;
 visualization_msgs::MarkerArray arena_msg;
 
-const bool USE_IMU = true;
-
-/* Publish a coordinate transform definition, so it can be known by RVIZ */
+/* Convenience method to publish a transform to ROS, based on an offset & rotation from a given parent frame. */
 ros::Time publish_transform(const Eigen::Vector3d &point,
 	             const Eigen::Quaterniond &quat,
 	             const std::string parent_frame,
@@ -172,38 +221,6 @@ Eigen::Matrix3d get_ecef2enu_matrix(Eigen::Vector3d rEcef) {
     return ret;
 }
 
-// global variables to keep track of camera / user state :)
-// Unless otherwise specified, things are ENU coordinates around the refnet antenna 
-Eigen::Vector3d rover_position_ecef;
-Eigen::Vector3d rover_position_refnet_ecef;
-Eigen::Vector3d rover_position_refnet_enu;
-Eigen::Vector3d rover_secondary_position_relative_ecef;
-Eigen::Vector3d rover_secondary_position_relative_enu;
-Eigen::Vector3d local_reference_refnet_enu;
-Eigen::Vector3d refnet_position_ecef;
-
-/* Global variables, only used when receiving local_odom messages (for now..) */
-Eigen::Vector3d rover_position_wrw;
-Eigen::Quaterniond rover_orientation_wrw;
-
-/* Arena (WRW) frame parameters */
-Eigen::Vector3d arena_position_refnet_ecef(-24.1875, 7.99, -4.95);
-Eigen::Vector3d arena_offset_enu(0, 0, -0.75);
-Eigen::Vector3d arena_position_refnet_enu(0, 0, 0);
-const double thetaWRW = 6.2*(3.141592654)/180;
-const double wrwMat[] =  {
-    cos(thetaWRW), -sin(thetaWRW), 0,
-    sin(thetaWRW),  cos(thetaWRW), 0,
-    0,              0,             1 
-};
-Eigen::Matrix3d arena_orientation_enu(wrwMat);
-
-/* State variables */
-Eigen::Quaterniond rover_orientation_enu;
-
-double rover_azimuth = 0;
-
-bool got_first_message = false;
 
 /* Publish all output ROS messages */
 /* the "world" reference frame is refnet ENU */
@@ -212,20 +229,26 @@ void publish_output() {
     identity.setIdentity();
 
     ros::Time now;
-    if(USE_IMU) {
-        /* with IMU, rover position data (coming from local_odom) is specified in the wrw frame */
-        now = publish_transform(rover_position_wrw, rover_orientation_wrw, "arena", "rover"); 
-    } else {
-        /* Without IMU, we are using SBRTK/A2D directly, with a position specified in the refnet frame */
-        now = publish_transform(rover_position_refnet_enu, rover_orientation_enu, "world", "rover"); 
-    }
+    
+    /* publish refnet frame */
+    now = publish_transform(refnet_position_ecef, refnet_orientation_ecef, 
+            "ecef", "refnet");
+
+    /* publish wrw frame */
+    publish_transform(wrw_position_refnet, wrw_orientation_refnet,
+            "refnet", "wrw");
+
+    /* publish yoga GNSS frames */
+    publish_transform(yoga_primary_position_refnet, identity,
+            "refnet", "yoga_primary");
+    publish_transform(yoga_secondary_position_primary, identity,
+            "yoga_primary", "yoga_secondary");
+
+    /* publish yoga local_odom frame (in WRW) */
+    publish_transform(yoga_odom_position_wrw, yoga_odom_orientation_wrw,
+            "wrw", "yoga_odom");
 
 
-    publish_transform(local_reference_refnet_enu, identity, "world", "local");
-    publish_transform(rover_secondary_position_relative_enu+rover_position_refnet_enu, rover_orientation_enu, "world", "secondary");
-
-    /* publish arena orientation */
-    publish_transform(arena_position_refnet_enu, Eigen::Quaterniond(arena_orientation_enu), "world", "arena");
     marker_array_msg.markers[0].header.stamp = now;
     pub_vis.publish(marker_array_msg);
 
@@ -243,7 +266,6 @@ void on_attitude2d_message(const gbx_ros_bridge_msgs::Attitude2D msg) {
 
     double PI = 3.14159265358979;
 
-    if(!USE_IMU) {
     // note: WXYZ
         rover_orientation_enu = Eigen::Quaterniond(cos((msg.azAngle - PI/2.0)/2), 0, 0, 
             -sin((msg.azAngle - PI/2.0)/2)); 
@@ -268,18 +290,15 @@ void on_sbrtk_message(const gbx_ros_bridge_msgs::SingleBaselineRTK msg) {
         refnet_position_ecef[1] = msg.ryRov - msg.ry;
         refnet_position_ecef[2] = msg.rzRov - msg.rz;
 
-        Eigen::Matrix3d xform = get_ecef2enu_matrix(refnet_position_ecef);
+        Recef2enu_refnet = get_ecef2enu_matrix(refnet_position_ecef);
 
         /* Rover ECEF position (relative to refnet) */
-        rover_position_refnet_ecef[0] = msg.rx;
-        rover_position_refnet_ecef[1] = msg.ry;
-        rover_position_refnet_ecef[2] = msg.rz;
+        Eigen::Vector3d primary_rel_ecef;
+        primary_rel_ecef[0] = msg.rx;
+        primary_rel_ecef[1] = msg.ry;
+        primary_rel_ecef[2] = msg.rz;
 
-        rover_position_refnet_enu = xform * rover_position_refnet_ecef;
-        rover_secondary_position_relative_enu = xform * rover_secondary_position_relative_ecef;
-
-        /* Calculate arena ENU position */
-        arena_position_refnet_enu = (xform * arena_position_refnet_ecef) + arena_offset_enu;
+        yoga_primary_position_refnet = Recef2enu_refnet * rover_position_refnet_ecef;
 
         if(!got_first_message) {
             local_reference_refnet_enu = rover_position_refnet_enu;
