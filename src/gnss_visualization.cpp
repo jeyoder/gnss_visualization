@@ -26,13 +26,18 @@ Eigen::Quaterniond  refnet_orientation_ecef;    /* On receipt of refnet_position
                                                  * to generate an ENU frame centered at the refnet antenna */
 
 Eigen::Vector3d     wrw_position_refnet;        /* WRW (arena center) position in refnet ENU frame. */
-Eigen::Vector3d     wrw_orientation_refnet;     /* WRW frame orientation in refnet ENU frame. */
+Eigen::Quaterniond  wrw_orientation_refnet;     /* WRW frame orientation in refnet ENU frame. */
 
 Eigen::Vector3d     yoga_primary_position_refnet; /* Yoga primary GNSS antenna position, in refnet ENU frame. Calculated on receipt of SBRTK message.
                                                    * Note that the yoga_primary orientation is the identity quaternion, i.e. objects in the yoga_primary
                                                    * frame retain ENU orientation. */
 
 Eigen::Vector3d     yoga_secondary_position_primary; /* Yoga secondary GNSS antenna position, in the primary antenna ENU frame. Calculated on A2D message. */
+
+Eigen::Vector3d     yoga_odom_position_wrw;
+Eigen::Quaterniond  yoga_odom_orientation_wrw;
+
+Eigen::Vector3d     local_position_refnet;
 
 Eigen::Matrix3d Recef2enu_refnet; /* Rotation matrix to ENU at refnet antenna. populated on receipt of sbrtk message. */
 
@@ -267,15 +272,18 @@ void on_attitude2d_message(const gbx_ros_bridge_msgs::Attitude2D msg) {
     double PI = 3.14159265358979;
 
     // note: WXYZ
-        rover_orientation_enu = Eigen::Quaterniond(cos((msg.azAngle - PI/2.0)/2), 0, 0, 
-            -sin((msg.azAngle - PI/2.0)/2)); 
-
+//        rover_orientation_enu = Eigen::Quaterniond(cos((msg.azAngle - PI/2.0)/2), 0, 0, 
+//            -sin((msg.azAngle - PI/2.0)/2)); 
+       
+        /* secondary position, relative to primary, in ecef frame */ 
+        Eigen::Vector3d rover_secondary_position_relative_ecef;
         rover_secondary_position_relative_ecef[0] = msg.rx; 
         rover_secondary_position_relative_ecef[1] = msg.ry; 
         rover_secondary_position_relative_ecef[2] = msg.rz; 
 
+        yoga_secondary_position_primary = Recef2enu_refnet * rover_secondary_position_relative_ecef;
+
         publish_output();
-    }
 }
 
 void on_sbrtk_message(const gbx_ros_bridge_msgs::SingleBaselineRTK msg) {
@@ -298,11 +306,10 @@ void on_sbrtk_message(const gbx_ros_bridge_msgs::SingleBaselineRTK msg) {
         primary_rel_ecef[1] = msg.ry;
         primary_rel_ecef[2] = msg.rz;
 
-        yoga_primary_position_refnet = Recef2enu_refnet * rover_position_refnet_ecef;
+        yoga_primary_position_refnet = Recef2enu_refnet * primary_rel_ecef;
 
         if(!got_first_message) {
-            local_reference_refnet_enu = rover_position_refnet_enu;
-            local_reference_refnet_enu[2] -= 1;
+            local_position_refnet = yoga_primary_position_refnet - Eigen::Vector3d(0, 0, -1.5);
             got_first_message = true;
         }   
 
@@ -312,17 +319,16 @@ void on_sbrtk_message(const gbx_ros_bridge_msgs::SingleBaselineRTK msg) {
 void on_local_odom_message(const  nav_msgs::Odometry msg) {
     ROS_INFO("[gnss_visualization] Received local_odom message!");
 
-    if(USE_IMU) {
-        rover_position_wrw[0] = msg.pose.pose.position.x;
-        rover_position_wrw[1] = msg.pose.pose.position.y;
-        rover_position_wrw[2] = msg.pose.pose.position.z;
+    yoga_odom_position_wrw[0] = msg.pose.pose.position.x;
+    yoga_odom_position_wrw[1] = msg.pose.pose.position.y;
+    yoga_odom_position_wrw[2] = msg.pose.pose.position.z;
     
-        rover_orientation_wrw = Eigen::Quaterniond(msg.pose.pose.orientation.w, msg.pose.pose.orientation.x, 
-                msg.pose.pose.orientation.y, msg.pose.pose.orientation.z);
+    yoga_odom_orientation_wrw = Eigen::Quaterniond(msg.pose.pose.orientation.w, msg.pose.pose.orientation.x, 
+            msg.pose.pose.orientation.y, msg.pose.pose.orientation.z);
 
-        publish_output();
-    }
+    publish_output();
 }
+
 /* Coordinate frames according to rviz: 
  *
  * refnet: Refnet centered ENU (default)
