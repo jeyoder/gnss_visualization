@@ -1,0 +1,9 @@
+<library path="libgnss_visualization_camera_controller">
+    <class name="gnss_visualization_camera_controller/FullFPS"
+           type="gnss_visualization_camera_controller::FullFPSViewController"
+           base_class_type="rviz::ViewController">
+           <description>
+               Look I'm a plugin description!
+           </description>
+    </class>
+</library>

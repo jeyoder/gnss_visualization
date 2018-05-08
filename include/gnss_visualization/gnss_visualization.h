@@ -9,7 +9,9 @@
 #include <tf/transform_broadcaster.h>
 #include <tf2_ros/static_transform_broadcaster.h>
 #include <tf2/LinearMath/Quaternion.h>
+
 #include "gbx_ros_bridge_msgs/Attitude2D.h"
 #include "gbx_ros_bridge_msgs/SingleBaselineRTK.h"
+#include "nav_msgs/Odometry.h"
 
 #endif

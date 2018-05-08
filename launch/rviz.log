@@ -1,0 +1,353 @@
+[0m[ INFO] [1525379815.503523653]: rviz version 1.12.15[0m
+[0m[ INFO] [1525379815.503556349]: compiled against Qt version 5.5.1[0m
+[0m[ INFO] [1525379815.503564289]: compiled against OGRE version 1.9.0 (Ghadamon)[0m
+[32m[DEBUG] [1525379815.520251576]: Creating ClassLoader, base = rviz::Panel, address = 0x19be330[0m
+[32m[DEBUG] [1525379815.535119507]: Entering determineAvailableClasses()...[0m
+[32m[DEBUG] [1525379815.535144517]: Processing xml file /opt/ros/lunar/share/rviz_plugin_tutorials/plugin_description.xml...[0m
+[32m[DEBUG] [1525379815.535208941]: XML file specifies lookup name (i.e. magic name) = rviz_plugin_tutorials/Teleop.[0m
+[32m[DEBUG] [1525379815.535225629]: XML file specifies lookup name (i.e. magic name) = rviz_plugin_tutorials/Imu.[0m
+[32m[DEBUG] [1525379815.535233782]: XML file specifies lookup name (i.e. magic name) = rviz_plugin_tutorials/PlantFlag.[0m
+[32m[DEBUG] [1525379815.535242227]: Processing xml file /opt/ros/lunar/share/rviz/plugin_description.xml...[0m
+[32m[DEBUG] [1525379815.535369769]: XML file specifies lookup name (i.e. magic name) = rviz/Axes.[0m
+[32m[DEBUG] [1525379815.535379837]: XML file specifies lookup name (i.e. magic name) = rviz/DepthCloud.[0m
+[32m[DEBUG] [1525379815.535386427]: XML file specifies lookup name (i.e. magic name) = rviz/Effort.[0m
+[32m[DEBUG] [1525379815.535393130]: XML file specifies lookup name (i.e. magic name) = rviz/FluidPressure.[0m
+[32m[DEBUG] [1525379815.535399273]: XML file specifies lookup name (i.e. magic name) = rviz/Grid.[0m
+[32m[DEBUG] [1525379815.535405915]: XML file specifies lookup name (i.e. magic name) = rviz/GridCells.[0m
+[32m[DEBUG] [1525379815.535412167]: XML file specifies lookup name (i.e. magic name) = rviz/Illuminance.[0m
+[32m[DEBUG] [1525379815.535418657]: XML file specifies lookup name (i.e. magic name) = rviz/Image.[0m
+[32m[DEBUG] [1525379815.535425674]: XML file specifies lookup name (i.e. magic name) = rviz/InteractiveMarkers.[0m
+[32m[DEBUG] [1525379815.535437071]: XML file specifies lookup name (i.e. magic name) = rviz/LaserScan.[0m
+[32m[DEBUG] [1525379815.535444627]: XML file specifies lookup name (i.e. magic name) = rviz/Map.[0m
+[32m[DEBUG] [1525379815.535450974]: XML file specifies lookup name (i.e. magic name) = rviz/Marker.[0m
+[32m[DEBUG] [1525379815.535458863]: XML file specifies lookup name (i.e. magic name) = rviz/MarkerArray.[0m
+[32m[DEBUG] [1525379815.535466957]: XML file specifies lookup name (i.e. magic name) = rviz/Odometry.[0m
+[32m[DEBUG] [1525379815.535472978]: XML file specifies lookup name (i.e. magic name) = rviz/Path.[0m
+[32m[DEBUG] [1525379815.535481442]: XML file specifies lookup name (i.e. magic name) = rviz/PointStamped.[0m
+[32m[DEBUG] [1525379815.535489406]: XML file specifies lookup name (i.e. magic name) = rviz/PointCloud.[0m
+[32m[DEBUG] [1525379815.535498768]: XML file specifies lookup name (i.e. magic name) = rviz/PointCloud2.[0m
+[32m[DEBUG] [1525379815.535508026]: XML file specifies lookup name (i.e. magic name) = rviz/Polygon.[0m
+[32m[DEBUG] [1525379815.535516400]: XML file specifies lookup name (i.e. magic name) = rviz/Pose.[0m
+[32m[DEBUG] [1525379815.535525093]: XML file specifies lookup name (i.e. magic name) = rviz/PoseArray.[0m
+[32m[DEBUG] [1525379815.535533730]: XML file specifies lookup name (i.e. magic name) = rviz/PoseWithCovariance.[0m
+[32m[DEBUG] [1525379815.535542152]: XML file specifies lookup name (i.e. magic name) = rviz/Range.[0m
+[32m[DEBUG] [1525379815.535550552]: XML file specifies lookup name (i.e. magic name) = rviz/RelativeHumidity.[0m
+[32m[DEBUG] [1525379815.535559038]: XML file specifies lookup name (i.e. magic name) = rviz/RobotModel.[0m
+[32m[DEBUG] [1525379815.535567853]: XML file specifies lookup name (i.e. magic name) = rviz/Camera.[0m
+[32m[DEBUG] [1525379815.535576200]: XML file specifies lookup name (i.e. magic name) = rviz/XYZ.[0m
+[32m[DEBUG] [1525379815.535584943]: XML file specifies lookup name (i.e. magic name) = rviz/Intensity.[0m
+[32m[DEBUG] [1525379815.535593793]: XML file specifies lookup name (i.e. magic name) = rviz/RGB8.[0m
+[32m[DEBUG] [1525379815.535631354]: XML file specifies lookup name (i.e. magic name) = rviz/MONO8.[0m
+[32m[DEBUG] [1525379815.535639556]: XML file specifies lookup name (i.e. magic name) = rviz/RGBF32.[0m
+[32m[DEBUG] [1525379815.535647982]: XML file specifies lookup name (i.e. magic name) = rviz/FlatColor.[0m
+[32m[DEBUG] [1525379815.535656829]: XML file specifies lookup name (i.e. magic name) = rviz/AxisColor.[0m
+[32m[DEBUG] [1525379815.535665448]: XML file specifies lookup name (i.e. magic name) = rviz/Temperature.[0m
+[32m[DEBUG] [1525379815.535674090]: XML file specifies lookup name (i.e. magic name) = rviz/TF.[0m
+[32m[DEBUG] [1525379815.535682583]: XML file specifies lookup name (i.e. magic name) = rviz/WrenchStamped.[0m
+[32m[DEBUG] [1525379815.535691530]: XML file specifies lookup name (i.e. magic name) = rviz/PublishPoint.[0m
+[32m[DEBUG] [1525379815.535699939]: XML file specifies lookup name (i.e. magic name) = rviz/FocusCamera.[0m
+[32m[DEBUG] [1525379815.535708603]: XML file specifies lookup name (i.e. magic name) = rviz/Measure.[0m
+[32m[DEBUG] [1525379815.535716627]: XML file specifies lookup name (i.e. magic name) = rviz/MoveCamera.[0m
+[32m[DEBUG] [1525379815.535725170]: XML file specifies lookup name (i.e. magic name) = rviz/Select.[0m
+[32m[DEBUG] [1525379815.535733607]: XML file specifies lookup name (i.e. magic name) = rviz/SetGoal.[0m
+[32m[DEBUG] [1525379815.535742060]: XML file specifies lookup name (i.e. magic name) = rviz/SetInitialPose.[0m
+[32m[DEBUG] [1525379815.535750614]: XML file specifies lookup name (i.e. magic name) = rviz/Interact.[0m
+[32m[DEBUG] [1525379815.535759366]: XML file specifies lookup name (i.e. magic name) = rviz/Orbit.[0m
+[32m[DEBUG] [1525379815.535767549]: XML file specifies lookup name (i.e. magic name) = rviz/XYOrbit.[0m
+[32m[DEBUG] [1525379815.535776057]: XML file specifies lookup name (i.e. magic name) = rviz/ThirdPersonFollower.[0m
+[32m[DEBUG] [1525379815.535784270]: XML file specifies lookup name (i.e. magic name) = rviz/FPS.[0m
+[32m[DEBUG] [1525379815.535792959]: XML file specifies lookup name (i.e. magic name) = rviz/TopDownOrtho.[0m
+[32m[DEBUG] [1525379815.535810983]: Exiting determineAvailableClasses()...[0m
+[32m[DEBUG] [1525379815.535836105]: Finished constructring ClassLoader, base = rviz::Panel, address = 0x19be330[0m
+[32m[DEBUG] [1525379815.565537246]: Loading '/opt/ros/lunar/share/rviz/images/splash_overlay.png'[0m
+[0m[ INFO] [1525379815.608544817]: Stereo is NOT SUPPORTED[0m
+[0m[ INFO] [1525379815.608596078]: OpenGl version: 3 (GLSL 1.3).[0m
+[32m[DEBUG] [1525379815.617760502]: Loading '/opt/ros/lunar/share/rviz/icons/plus.png'[0m
+[32m[DEBUG] [1525379815.618023215]: Loading '/opt/ros/lunar/share/rviz/icons/minus.png'[0m
+[32m[DEBUG] [1525379815.632407206]: Creating ClassLoader, base = rviz::Tool, address = 0x259d430[0m
+[32m[DEBUG] [1525379815.632645784]: Entering determineAvailableClasses()...[0m
+[32m[DEBUG] [1525379815.632660723]: Processing xml file /opt/ros/lunar/share/rviz_plugin_tutorials/plugin_description.xml...[0m
+[32m[DEBUG] [1525379815.632746859]: XML file specifies lookup name (i.e. magic name) = rviz_plugin_tutorials/Teleop.[0m
+[32m[DEBUG] [1525379815.632757287]: XML file specifies lookup name (i.e. magic name) = rviz_plugin_tutorials/Imu.[0m
+[32m[DEBUG] [1525379815.632764408]: XML file specifies lookup name (i.e. magic name) = rviz_plugin_tutorials/PlantFlag.[0m
+[32m[DEBUG] [1525379815.632775115]: Processing xml file /opt/ros/lunar/share/rviz/plugin_description.xml...[0m
+[32m[DEBUG] [1525379815.632901605]: XML file specifies lookup name (i.e. magic name) = rviz/Axes.[0m
+[32m[DEBUG] [1525379815.632911216]: XML file specifies lookup name (i.e. magic name) = rviz/DepthCloud.[0m
+[32m[DEBUG] [1525379815.632917953]: XML file specifies lookup name (i.e. magic name) = rviz/Effort.[0m
+[32m[DEBUG] [1525379815.632924852]: XML file specifies lookup name (i.e. magic name) = rviz/FluidPressure.[0m
+[32m[DEBUG] [1525379815.632931188]: XML file specifies lookup name (i.e. magic name) = rviz/Grid.[0m
+[32m[DEBUG] [1525379815.632952914]: XML file specifies lookup name (i.e. magic name) = rviz/GridCells.[0m
+[32m[DEBUG] [1525379815.632960548]: XML file specifies lookup name (i.e. magic name) = rviz/Illuminance.[0m
+[32m[DEBUG] [1525379815.632972051]: XML file specifies lookup name (i.e. magic name) = rviz/Image.[0m
+[32m[DEBUG] [1525379815.632980872]: XML file specifies lookup name (i.e. magic name) = rviz/InteractiveMarkers.[0m
+[32m[DEBUG] [1525379815.632988284]: XML file specifies lookup name (i.e. magic name) = rviz/LaserScan.[0m
+[32m[DEBUG] [1525379815.632994519]: XML file specifies lookup name (i.e. magic name) = rviz/Map.[0m
+[32m[DEBUG] [1525379815.633003364]: XML file specifies lookup name (i.e. magic name) = rviz/Marker.[0m
+[32m[DEBUG] [1525379815.633011301]: XML file specifies lookup name (i.e. magic name) = rviz/MarkerArray.[0m
+[32m[DEBUG] [1525379815.633018452]: XML file specifies lookup name (i.e. magic name) = rviz/Odometry.[0m
+[32m[DEBUG] [1525379815.633024608]: XML file specifies lookup name (i.e. magic name) = rviz/Path.[0m
+[32m[DEBUG] [1525379815.633033909]: XML file specifies lookup name (i.e. magic name) = rviz/PointStamped.[0m
+[32m[DEBUG] [1525379815.633041187]: XML file specifies lookup name (i.e. magic name) = rviz/PointCloud.[0m
+[32m[DEBUG] [1525379815.633048473]: XML file specifies lookup name (i.e. magic name) = rviz/PointCloud2.[0m
+[32m[DEBUG] [1525379815.633054539]: XML file specifies lookup name (i.e. magic name) = rviz/Polygon.[0m
+[32m[DEBUG] [1525379815.633063481]: XML file specifies lookup name (i.e. magic name) = rviz/Pose.[0m
+[32m[DEBUG] [1525379815.633073040]: XML file specifies lookup name (i.e. magic name) = rviz/PoseArray.[0m
+[32m[DEBUG] [1525379815.633081572]: XML file specifies lookup name (i.e. magic name) = rviz/PoseWithCovariance.[0m
+[32m[DEBUG] [1525379815.633089843]: XML file specifies lookup name (i.e. magic name) = rviz/Range.[0m
+[32m[DEBUG] [1525379815.633098498]: XML file specifies lookup name (i.e. magic name) = rviz/RelativeHumidity.[0m
+[32m[DEBUG] [1525379815.633107199]: XML file specifies lookup name (i.e. magic name) = rviz/RobotModel.[0m
+[32m[DEBUG] [1525379815.633115428]: XML file specifies lookup name (i.e. magic name) = rviz/Camera.[0m
+[32m[DEBUG] [1525379815.633124356]: XML file specifies lookup name (i.e. magic name) = rviz/XYZ.[0m
+[32m[DEBUG] [1525379815.633132852]: XML file specifies lookup name (i.e. magic name) = rviz/Intensity.[0m
+[32m[DEBUG] [1525379815.633141350]: XML file specifies lookup name (i.e. magic name) = rviz/RGB8.[0m
+[32m[DEBUG] [1525379815.633149593]: XML file specifies lookup name (i.e. magic name) = rviz/MONO8.[0m
+[32m[DEBUG] [1525379815.633158262]: XML file specifies lookup name (i.e. magic name) = rviz/RGBF32.[0m
+[32m[DEBUG] [1525379815.633166987]: XML file specifies lookup name (i.e. magic name) = rviz/FlatColor.[0m
+[32m[DEBUG] [1525379815.633175231]: XML file specifies lookup name (i.e. magic name) = rviz/AxisColor.[0m
+[32m[DEBUG] [1525379815.633184147]: XML file specifies lookup name (i.e. magic name) = rviz/Temperature.[0m
+[32m[DEBUG] [1525379815.633192647]: XML file specifies lookup name (i.e. magic name) = rviz/TF.[0m
+[32m[DEBUG] [1525379815.633201779]: XML file specifies lookup name (i.e. magic name) = rviz/WrenchStamped.[0m
+[32m[DEBUG] [1525379815.633210425]: XML file specifies lookup name (i.e. magic name) = rviz/PublishPoint.[0m
+[32m[DEBUG] [1525379815.633223945]: XML file specifies lookup name (i.e. magic name) = rviz/FocusCamera.[0m
+[32m[DEBUG] [1525379815.633233586]: XML file specifies lookup name (i.e. magic name) = rviz/Measure.[0m
+[32m[DEBUG] [1525379815.633243225]: XML file specifies lookup name (i.e. magic name) = rviz/MoveCamera.[0m
+[32m[DEBUG] [1525379815.633252736]: XML file specifies lookup name (i.e. magic name) = rviz/Select.[0m
+[32m[DEBUG] [1525379815.633263343]: XML file specifies lookup name (i.e. magic name) = rviz/SetGoal.[0m
+[32m[DEBUG] [1525379815.633272776]: XML file specifies lookup name (i.e. magic name) = rviz/SetInitialPose.[0m
+[32m[DEBUG] [1525379815.633288121]: XML file specifies lookup name (i.e. magic name) = rviz/Interact.[0m
+[32m[DEBUG] [1525379815.633298620]: XML file specifies lookup name (i.e. magic name) = rviz/Orbit.[0m
+[32m[DEBUG] [1525379815.633307212]: XML file specifies lookup name (i.e. magic name) = rviz/XYOrbit.[0m
+[32m[DEBUG] [1525379815.633315993]: XML file specifies lookup name (i.e. magic name) = rviz/ThirdPersonFollower.[0m
+[32m[DEBUG] [1525379815.633324992]: XML file specifies lookup name (i.e. magic name) = rviz/FPS.[0m
+[32m[DEBUG] [1525379815.633333477]: XML file specifies lookup name (i.e. magic name) = rviz/TopDownOrtho.[0m
+[32m[DEBUG] [1525379815.633350582]: Exiting determineAvailableClasses()...[0m
+[32m[DEBUG] [1525379815.633361224]: Finished constructring ClassLoader, base = rviz::Tool, address = 0x259d430[0m
+[32m[DEBUG] [1525379815.633394101]: Creating ClassLoader, base = rviz::ViewController, address = 0x259e380[0m
+[32m[DEBUG] [1525379815.633571828]: Entering determineAvailableClasses()...[0m
+[32m[DEBUG] [1525379815.633588035]: Processing xml file /opt/ros/lunar/share/rviz_plugin_tutorials/plugin_description.xml...[0m
+[32m[DEBUG] [1525379815.633638965]: XML file specifies lookup name (i.e. magic name) = rviz_plugin_tutorials/Teleop.[0m
+[32m[DEBUG] [1525379815.633649400]: XML file specifies lookup name (i.e. magic name) = rviz_plugin_tutorials/Imu.[0m
+[32m[DEBUG] [1525379815.633658201]: XML file specifies lookup name (i.e. magic name) = rviz_plugin_tutorials/PlantFlag.[0m
+[32m[DEBUG] [1525379815.633668568]: Processing xml file /opt/ros/lunar/share/rviz/plugin_description.xml...[0m
+[32m[DEBUG] [1525379815.633783729]: XML file specifies lookup name (i.e. magic name) = rviz/Axes.[0m
+[32m[DEBUG] [1525379815.633794251]: XML file specifies lookup name (i.e. magic name) = rviz/DepthCloud.[0m
+[32m[DEBUG] [1525379815.633802659]: XML file specifies lookup name (i.e. magic name) = rviz/Effort.[0m
+[32m[DEBUG] [1525379815.633811932]: XML file specifies lookup name (i.e. magic name) = rviz/FluidPressure.[0m
+[32m[DEBUG] [1525379815.633820088]: XML file specifies lookup name (i.e. magic name) = rviz/Grid.[0m
+[32m[DEBUG] [1525379815.633829053]: XML file specifies lookup name (i.e. magic name) = rviz/GridCells.[0m
+[32m[DEBUG] [1525379815.633837970]: XML file specifies lookup name (i.e. magic name) = rviz/Illuminance.[0m
+[32m[DEBUG] [1525379815.633846434]: XML file specifies lookup name (i.e. magic name) = rviz/Image.[0m
+[32m[DEBUG] [1525379815.633855919]: XML file specifies lookup name (i.e. magic name) = rviz/InteractiveMarkers.[0m
+[32m[DEBUG] [1525379815.633864942]: XML file specifies lookup name (i.e. magic name) = rviz/LaserScan.[0m
+[32m[DEBUG] [1525379815.633873362]: XML file specifies lookup name (i.e. magic name) = rviz/Map.[0m
+[32m[DEBUG] [1525379815.633882654]: XML file specifies lookup name (i.e. magic name) = rviz/Marker.[0m
+[32m[DEBUG] [1525379815.633891479]: XML file specifies lookup name (i.e. magic name) = rviz/MarkerArray.[0m
+[32m[DEBUG] [1525379815.633900309]: XML file specifies lookup name (i.e. magic name) = rviz/Odometry.[0m
+[32m[DEBUG] [1525379815.633908966]: XML file specifies lookup name (i.e. magic name) = rviz/Path.[0m
+[32m[DEBUG] [1525379815.633917934]: XML file specifies lookup name (i.e. magic name) = rviz/PointStamped.[0m
+[32m[DEBUG] [1525379815.633926647]: XML file specifies lookup name (i.e. magic name) = rviz/PointCloud.[0m
+[32m[DEBUG] [1525379815.633935587]: XML file specifies lookup name (i.e. magic name) = rviz/PointCloud2.[0m
+[32m[DEBUG] [1525379815.633944019]: XML file specifies lookup name (i.e. magic name) = rviz/Polygon.[0m
+[32m[DEBUG] [1525379815.633952976]: XML file specifies lookup name (i.e. magic name) = rviz/Pose.[0m
+[32m[DEBUG] [1525379815.633961745]: XML file specifies lookup name (i.e. magic name) = rviz/PoseArray.[0m
+[32m[DEBUG] [1525379815.633970611]: XML file specifies lookup name (i.e. magic name) = rviz/PoseWithCovariance.[0m
+[32m[DEBUG] [1525379815.633979536]: XML file specifies lookup name (i.e. magic name) = rviz/Range.[0m
+[32m[DEBUG] [1525379815.633996485]: XML file specifies lookup name (i.e. magic name) = rviz/RelativeHumidity.[0m
+[32m[DEBUG] [1525379815.634005068]: XML file specifies lookup name (i.e. magic name) = rviz/RobotModel.[0m
+[32m[DEBUG] [1525379815.634013703]: XML file specifies lookup name (i.e. magic name) = rviz/Camera.[0m
+[32m[DEBUG] [1525379815.634022577]: XML file specifies lookup name (i.e. magic name) = rviz/XYZ.[0m
+[32m[DEBUG] [1525379815.634031685]: XML file specifies lookup name (i.e. magic name) = rviz/Intensity.[0m
+[32m[DEBUG] [1525379815.634040320]: XML file specifies lookup name (i.e. magic name) = rviz/RGB8.[0m
+[32m[DEBUG] [1525379815.634049140]: XML file specifies lookup name (i.e. magic name) = rviz/MONO8.[0m
+[32m[DEBUG] [1525379815.634057734]: XML file specifies lookup name (i.e. magic name) = rviz/RGBF32.[0m
+[32m[DEBUG] [1525379815.634066353]: XML file specifies lookup name (i.e. magic name) = rviz/FlatColor.[0m
+[32m[DEBUG] [1525379815.634075392]: XML file specifies lookup name (i.e. magic name) = rviz/AxisColor.[0m
+[32m[DEBUG] [1525379815.634084040]: XML file specifies lookup name (i.e. magic name) = rviz/Temperature.[0m
+[32m[DEBUG] [1525379815.634092474]: XML file specifies lookup name (i.e. magic name) = rviz/TF.[0m
+[32m[DEBUG] [1525379815.634101745]: XML file specifies lookup name (i.e. magic name) = rviz/WrenchStamped.[0m
+[32m[DEBUG] [1525379815.634110741]: XML file specifies lookup name (i.e. magic name) = rviz/PublishPoint.[0m
+[32m[DEBUG] [1525379815.634119966]: XML file specifies lookup name (i.e. magic name) = rviz/FocusCamera.[0m
+[32m[DEBUG] [1525379815.634128773]: XML file specifies lookup name (i.e. magic name) = rviz/Measure.[0m
+[32m[DEBUG] [1525379815.634137793]: XML file specifies lookup name (i.e. magic name) = rviz/MoveCamera.[0m
+[32m[DEBUG] [1525379815.634146604]: XML file specifies lookup name (i.e. magic name) = rviz/Select.[0m
+[32m[DEBUG] [1525379815.634155830]: XML file specifies lookup name (i.e. magic name) = rviz/SetGoal.[0m
+[32m[DEBUG] [1525379815.634164320]: XML file specifies lookup name (i.e. magic name) = rviz/SetInitialPose.[0m
+[32m[DEBUG] [1525379815.634173536]: XML file specifies lookup name (i.e. magic name) = rviz/Interact.[0m
+[32m[DEBUG] [1525379815.634182215]: XML file specifies lookup name (i.e. magic name) = rviz/Orbit.[0m
+[32m[DEBUG] [1525379815.634193638]: XML file specifies lookup name (i.e. magic name) = rviz/XYOrbit.[0m
+[32m[DEBUG] [1525379815.634204348]: XML file specifies lookup name (i.e. magic name) = rviz/ThirdPersonFollower.[0m
+[32m[DEBUG] [1525379815.634214479]: XML file specifies lookup name (i.e. magic name) = rviz/FPS.[0m
+[32m[DEBUG] [1525379815.634224430]: XML file specifies lookup name (i.e. magic name) = rviz/TopDownOrtho.[0m
+[32m[DEBUG] [1525379815.634242133]: Exiting determineAvailableClasses()...[0m
+[32m[DEBUG] [1525379815.634252973]: Finished constructring ClassLoader, base = rviz::ViewController, address = 0x259e380[0m
+[32m[DEBUG] [1525379815.634324811]: Loading '/opt/ros/lunar/share/rviz/icons/options.png'[0m
+[32m[DEBUG] [1525379815.635891601]: Loading '/opt/ros/lunar/share/rviz/icons/ok.png'[0m
+[32m[DEBUG] [1525379815.636091356]: Loading '/opt/ros/lunar/share/rviz/icons/warning.png'[0m
+[32m[DEBUG] [1525379815.636218733]: Loading '/opt/ros/lunar/share/rviz/icons/error.png'[0m
+[32m[DEBUG] [1525379815.636417073]: Creating ClassLoader, base = rviz::Display, address = 0x25a9250[0m
+[32m[DEBUG] [1525379815.636598763]: Entering determineAvailableClasses()...[0m
+[32m[DEBUG] [1525379815.636613596]: Processing xml file /opt/ros/lunar/share/rviz_plugin_tutorials/plugin_description.xml...[0m
+[32m[DEBUG] [1525379815.636670168]: XML file specifies lookup name (i.e. magic name) = rviz_plugin_tutorials/Teleop.[0m
+[32m[DEBUG] [1525379815.636680935]: XML file specifies lookup name (i.e. magic name) = rviz_plugin_tutorials/Imu.[0m
+[32m[DEBUG] [1525379815.636690716]: XML file specifies lookup name (i.e. magic name) = rviz_plugin_tutorials/PlantFlag.[0m
+[32m[DEBUG] [1525379815.636711621]: Processing xml file /opt/ros/lunar/share/rviz/plugin_description.xml...[0m
+[32m[DEBUG] [1525379815.636837911]: XML file specifies lookup name (i.e. magic name) = rviz/Axes.[0m
+[32m[DEBUG] [1525379815.636851725]: XML file specifies lookup name (i.e. magic name) = rviz/DepthCloud.[0m
+[32m[DEBUG] [1525379815.636863187]: XML file specifies lookup name (i.e. magic name) = rviz/Effort.[0m
+[32m[DEBUG] [1525379815.636873040]: XML file specifies lookup name (i.e. magic name) = rviz/FluidPressure.[0m
+[32m[DEBUG] [1525379815.636883021]: XML file specifies lookup name (i.e. magic name) = rviz/Grid.[0m
+[32m[DEBUG] [1525379815.636894460]: XML file specifies lookup name (i.e. magic name) = rviz/GridCells.[0m
+[32m[DEBUG] [1525379815.636905548]: XML file specifies lookup name (i.e. magic name) = rviz/Illuminance.[0m
+[32m[DEBUG] [1525379815.636916204]: XML file specifies lookup name (i.e. magic name) = rviz/Image.[0m
+[32m[DEBUG] [1525379815.636927726]: XML file specifies lookup name (i.e. magic name) = rviz/InteractiveMarkers.[0m
+[32m[DEBUG] [1525379815.636938267]: XML file specifies lookup name (i.e. magic name) = rviz/LaserScan.[0m
+[32m[DEBUG] [1525379815.636948338]: XML file specifies lookup name (i.e. magic name) = rviz/Map.[0m
+[32m[DEBUG] [1525379815.636959289]: XML file specifies lookup name (i.e. magic name) = rviz/Marker.[0m
+[32m[DEBUG] [1525379815.636970516]: XML file specifies lookup name (i.e. magic name) = rviz/MarkerArray.[0m
+[32m[DEBUG] [1525379815.636981579]: XML file specifies lookup name (i.e. magic name) = rviz/Odometry.[0m
+[32m[DEBUG] [1525379815.636993832]: XML file specifies lookup name (i.e. magic name) = rviz/Path.[0m
+[32m[DEBUG] [1525379815.637005290]: XML file specifies lookup name (i.e. magic name) = rviz/PointStamped.[0m
+[32m[DEBUG] [1525379815.637016309]: XML file specifies lookup name (i.e. magic name) = rviz/PointCloud.[0m
+[32m[DEBUG] [1525379815.637027642]: XML file specifies lookup name (i.e. magic name) = rviz/PointCloud2.[0m
+[32m[DEBUG] [1525379815.637039232]: XML file specifies lookup name (i.e. magic name) = rviz/Polygon.[0m
+[32m[DEBUG] [1525379815.637049724]: XML file specifies lookup name (i.e. magic name) = rviz/Pose.[0m
+[32m[DEBUG] [1525379815.637060030]: XML file specifies lookup name (i.e. magic name) = rviz/PoseArray.[0m
+[32m[DEBUG] [1525379815.637071202]: XML file specifies lookup name (i.e. magic name) = rviz/PoseWithCovariance.[0m
+[32m[DEBUG] [1525379815.637082853]: XML file specifies lookup name (i.e. magic name) = rviz/Range.[0m
+[32m[DEBUG] [1525379815.637094356]: XML file specifies lookup name (i.e. magic name) = rviz/RelativeHumidity.[0m
+[32m[DEBUG] [1525379815.637105035]: XML file specifies lookup name (i.e. magic name) = rviz/RobotModel.[0m
+[32m[DEBUG] [1525379815.637116233]: XML file specifies lookup name (i.e. magic name) = rviz/Camera.[0m
+[32m[DEBUG] [1525379815.637126708]: XML file specifies lookup name (i.e. magic name) = rviz/XYZ.[0m
+[32m[DEBUG] [1525379815.637135442]: XML file specifies lookup name (i.e. magic name) = rviz/Intensity.[0m
+[32m[DEBUG] [1525379815.637144532]: XML file specifies lookup name (i.e. magic name) = rviz/RGB8.[0m
+[32m[DEBUG] [1525379815.637153244]: XML file specifies lookup name (i.e. magic name) = rviz/MONO8.[0m
+[32m[DEBUG] [1525379815.637161919]: XML file specifies lookup name (i.e. magic name) = rviz/RGBF32.[0m
+[32m[DEBUG] [1525379815.637170303]: XML file specifies lookup name (i.e. magic name) = rviz/FlatColor.[0m
+[32m[DEBUG] [1525379815.637178850]: XML file specifies lookup name (i.e. magic name) = rviz/AxisColor.[0m
+[32m[DEBUG] [1525379815.637187366]: XML file specifies lookup name (i.e. magic name) = rviz/Temperature.[0m
+[32m[DEBUG] [1525379815.637197526]: XML file specifies lookup name (i.e. magic name) = rviz/TF.[0m
+[32m[DEBUG] [1525379815.637208411]: XML file specifies lookup name (i.e. magic name) = rviz/WrenchStamped.[0m
+[32m[DEBUG] [1525379815.637218413]: XML file specifies lookup name (i.e. magic name) = rviz/PublishPoint.[0m
+[32m[DEBUG] [1525379815.637234382]: XML file specifies lookup name (i.e. magic name) = rviz/FocusCamera.[0m
+[32m[DEBUG] [1525379815.637243009]: XML file specifies lookup name (i.e. magic name) = rviz/Measure.[0m
+[32m[DEBUG] [1525379815.637251452]: XML file specifies lookup name (i.e. magic name) = rviz/MoveCamera.[0m
+[32m[DEBUG] [1525379815.637260049]: XML file specifies lookup name (i.e. magic name) = rviz/Select.[0m
+[32m[DEBUG] [1525379815.637268473]: XML file specifies lookup name (i.e. magic name) = rviz/SetGoal.[0m
+[32m[DEBUG] [1525379815.637277283]: XML file specifies lookup name (i.e. magic name) = rviz/SetInitialPose.[0m
+[32m[DEBUG] [1525379815.637285545]: XML file specifies lookup name (i.e. magic name) = rviz/Interact.[0m
+[32m[DEBUG] [1525379815.637294235]: XML file specifies lookup name (i.e. magic name) = rviz/Orbit.[0m
+[32m[DEBUG] [1525379815.637302537]: XML file specifies lookup name (i.e. magic name) = rviz/XYOrbit.[0m
+[32m[DEBUG] [1525379815.637311823]: XML file specifies lookup name (i.e. magic name) = rviz/ThirdPersonFollower.[0m
+[32m[DEBUG] [1525379815.637320560]: XML file specifies lookup name (i.e. magic name) = rviz/FPS.[0m
+[32m[DEBUG] [1525379815.637330060]: XML file specifies lookup name (i.e. magic name) = rviz/TopDownOrtho.[0m
+[32m[DEBUG] [1525379815.637346881]: Exiting determineAvailableClasses()...[0m
+[32m[DEBUG] [1525379815.637357465]: Finished constructring ClassLoader, base = rviz::Display, address = 0x25a9250[0m
+[32m[DEBUG] [1525379815.637511301]: Attempting to create UNMANAGED instance for class rviz/Orbit.[0m
+[32m[DEBUG] [1525379815.637528173]: Class rviz/Orbit maps to library librviz_default_plugin in classes_available_.[0m
+[32m[DEBUG] [1525379815.637596652]: Iterating through all possible paths where librviz_default_plugin could be located...[0m
+[32m[DEBUG] [1525379815.637607628]: Checking path /home/james/rnlab/catkin_ws/devel/lib/librviz_default_plugin.so [0m
+[32m[DEBUG] [1525379815.637619747]: Checking path /home/james/rnlab/catkin_ws/devel/lib/librviz_default_plugin.so [0m
+[32m[DEBUG] [1525379815.637629329]: Checking path /home/james/rnlab/catkin_ws/src/gbx_ros_bridge_msgs/devel/lib/librviz_default_plugin.so [0m
+[32m[DEBUG] [1525379815.637639875]: Checking path /home/james/rnlab/catkin_ws/src/gbx_ros_bridge_msgs/devel/lib/librviz_default_plugin.so [0m
+[32m[DEBUG] [1525379815.637648698]: Checking path /opt/ros/lunar/lib/librviz_default_plugin.so [0m
+[32m[DEBUG] [1525379815.637660285]: Library librviz_default_plugin found at explicit path /opt/ros/lunar/lib/librviz_default_plugin.so.[0m
+[32m[DEBUG] [1525379815.658634426]: Attempting to create instance through low level multi-library class loader.[0m
+[32m[DEBUG] [1525379815.658656249]: rviz/Orbit maps to real class type rviz::OrbitViewController[0m
+[32m[DEBUG] [1525379815.658788040]: Instance of type rviz::OrbitViewController created.[0m
+[32m[DEBUG] [1525379815.659134155]: Loading '/opt/ros/lunar/share/rviz/icons/rotate.svg'[0m
+[32m[DEBUG] [1525379815.660227381]: Loading '/opt/ros/lunar/share/rviz/icons/cursor.svg'[0m
+[32m[DEBUG] [1525379815.660643836]: Loading '/opt/ros/lunar/share/rviz/icons/rotate_cam.svg'[0m
+[32m[DEBUG] [1525379815.661351789]: Loading '/opt/ros/lunar/share/rviz/icons/move2d.svg'[0m
+[32m[DEBUG] [1525379815.661963912]: Loading '/opt/ros/lunar/share/rviz/icons/move_z.svg'[0m
+[32m[DEBUG] [1525379815.662443411]: Loading '/opt/ros/lunar/share/rviz/icons/zoom.svg'[0m
+[32m[DEBUG] [1525379815.662950065]: Loading '/opt/ros/lunar/share/rviz/icons/crosshair.svg'[0m
+[32m[DEBUG] [1525379815.663952530]: Attempting to create UNMANAGED instance for class rviz/MoveCamera.[0m
+[32m[DEBUG] [1525379815.663969624]: Class rviz/MoveCamera maps to library librviz_default_plugin in classes_available_.[0m
+[32m[DEBUG] [1525379815.664025460]: Iterating through all possible paths where librviz_default_plugin could be located...[0m
+[32m[DEBUG] [1525379815.664036071]: Checking path /home/james/rnlab/catkin_ws/devel/lib/librviz_default_plugin.so [0m
+[32m[DEBUG] [1525379815.664046586]: Checking path /home/james/rnlab/catkin_ws/devel/lib/librviz_default_plugin.so [0m
+[32m[DEBUG] [1525379815.664071047]: Checking path /home/james/rnlab/catkin_ws/src/gbx_ros_bridge_msgs/devel/lib/librviz_default_plugin.so [0m
+[32m[DEBUG] [1525379815.664079823]: Checking path /home/james/rnlab/catkin_ws/src/gbx_ros_bridge_msgs/devel/lib/librviz_default_plugin.so [0m
+[32m[DEBUG] [1525379815.664089077]: Checking path /opt/ros/lunar/lib/librviz_default_plugin.so [0m
+[32m[DEBUG] [1525379815.664100750]: Library librviz_default_plugin found at explicit path /opt/ros/lunar/lib/librviz_default_plugin.so.[0m
+[32m[DEBUG] [1525379815.664200239]: Attempting to create instance through low level multi-library class loader.[0m
+[32m[DEBUG] [1525379815.664209394]: rviz/MoveCamera maps to real class type rviz::MoveTool[0m
+[32m[DEBUG] [1525379815.664303791]: Loading '/opt/ros/lunar/share/rviz/icons/classes/MoveCamera.png'[0m
+[32m[DEBUG] [1525379815.664504945]: Instance of type rviz::MoveTool created.[0m
+[32m[DEBUG] [1525379815.664799379]: Attempting to create UNMANAGED instance for class rviz/Interact.[0m
+[32m[DEBUG] [1525379815.664818160]: Attempting to create instance through low level multi-library class loader.[0m
+[32m[DEBUG] [1525379815.664826215]: rviz/Interact maps to real class type rviz::InteractionTool[0m
+[32m[DEBUG] [1525379815.664923559]: Instance of type rviz::InteractionTool created.[0m
+[32m[DEBUG] [1525379815.665023775]: Loading '/opt/ros/lunar/share/rviz/icons/classes/Interact.png'[0m
+[32m[DEBUG] [1525379815.665238659]: Attempting to create UNMANAGED instance for class rviz/Select.[0m
+[32m[DEBUG] [1525379815.665266146]: Attempting to create instance through low level multi-library class loader.[0m
+[32m[DEBUG] [1525379815.665274223]: rviz/Select maps to real class type rviz::SelectionTool[0m
+[32m[DEBUG] [1525379815.665364470]: Instance of type rviz::SelectionTool created.[0m
+[32m[DEBUG] [1525379815.665461854]: Loading '/opt/ros/lunar/share/rviz/icons/classes/Select.png'[0m
+[32m[DEBUG] [1525379815.665655584]: Attempting to create UNMANAGED instance for class rviz/SetInitialPose.[0m
+[32m[DEBUG] [1525379815.665674230]: Attempting to create instance through low level multi-library class loader.[0m
+[32m[DEBUG] [1525379815.665683223]: rviz/SetInitialPose maps to real class type rviz::InitialPoseTool[0m
+[32m[DEBUG] [1525379815.665749435]: Instance of type rviz::InitialPoseTool created.[0m
+[32m[DEBUG] [1525379815.665847515]: Loading '/opt/ros/lunar/share/rviz/icons/classes/SetInitialPose.png'[0m
+[32m[DEBUG] [1525379815.667278046]: Attempting to create UNMANAGED instance for class rviz/SetGoal.[0m
+[32m[DEBUG] [1525379815.667305908]: Attempting to create instance through low level multi-library class loader.[0m
+[32m[DEBUG] [1525379815.667315285]: rviz/SetGoal maps to real class type rviz::GoalTool[0m
+[32m[DEBUG] [1525379815.667395370]: Instance of type rviz::GoalTool created.[0m
+[32m[DEBUG] [1525379815.667512529]: Loading '/opt/ros/lunar/share/rviz/icons/classes/SetGoal.png'[0m
+[32m[DEBUG] [1525379815.670259700]: Attempting to create UNMANAGED instance for class rviz/Grid.[0m
+[32m[DEBUG] [1525379815.670278933]: Class rviz/Grid maps to library librviz_default_plugin in classes_available_.[0m
+[32m[DEBUG] [1525379815.670342263]: Iterating through all possible paths where librviz_default_plugin could be located...[0m
+[32m[DEBUG] [1525379815.670353136]: Checking path /home/james/rnlab/catkin_ws/devel/lib/librviz_default_plugin.so [0m
+[32m[DEBUG] [1525379815.670362902]: Checking path /home/james/rnlab/catkin_ws/devel/lib/librviz_default_plugin.so [0m
+[32m[DEBUG] [1525379815.670370436]: Checking path /home/james/rnlab/catkin_ws/src/gbx_ros_bridge_msgs/devel/lib/librviz_default_plugin.so [0m
+[32m[DEBUG] [1525379815.670378896]: Checking path /home/james/rnlab/catkin_ws/src/gbx_ros_bridge_msgs/devel/lib/librviz_default_plugin.so [0m
+[32m[DEBUG] [1525379815.670386027]: Checking path /opt/ros/lunar/lib/librviz_default_plugin.so [0m
+[32m[DEBUG] [1525379815.670395357]: Library librviz_default_plugin found at explicit path /opt/ros/lunar/lib/librviz_default_plugin.so.[0m
+[32m[DEBUG] [1525379815.670517995]: Attempting to create instance through low level multi-library class loader.[0m
+[32m[DEBUG] [1525379815.670527756]: rviz/Grid maps to real class type rviz::GridDisplay[0m
+[32m[DEBUG] [1525379815.670698390]: Instance of type rviz::GridDisplay created.[0m
+[32m[DEBUG] [1525379815.670807216]: Loading '/opt/ros/lunar/share/rviz/icons/classes/Grid.png'[0m
+[32m[DEBUG] [1525379815.672688247]: Attempting to create UNMANAGED instance for class rviz/Interact.[0m
+[32m[DEBUG] [1525379815.672721020]: Attempting to create instance through low level multi-library class loader.[0m
+[32m[DEBUG] [1525379815.672734625]: rviz/Interact maps to real class type rviz::InteractionTool[0m
+[32m[DEBUG] [1525379815.672883082]: Instance of type rviz::InteractionTool created.[0m
+[32m[DEBUG] [1525379815.673077058]: Attempting to create UNMANAGED instance for class rviz/MoveCamera.[0m
+[32m[DEBUG] [1525379815.673100377]: Attempting to create instance through low level multi-library class loader.[0m
+[32m[DEBUG] [1525379815.673111565]: rviz/MoveCamera maps to real class type rviz::MoveTool[0m
+[32m[DEBUG] [1525379815.673220429]: Instance of type rviz::MoveTool created.[0m
+[32m[DEBUG] [1525379815.673385962]: Attempting to create UNMANAGED instance for class rviz/Select.[0m
+[32m[DEBUG] [1525379815.673402550]: Attempting to create instance through low level multi-library class loader.[0m
+[32m[DEBUG] [1525379815.673409673]: rviz/Select maps to real class type rviz::SelectionTool[0m
+[32m[DEBUG] [1525379815.673492184]: Instance of type rviz::SelectionTool created.[0m
+[32m[DEBUG] [1525379815.673597690]: Attempting to create UNMANAGED instance for class rviz/FocusCamera.[0m
+[32m[DEBUG] [1525379815.673614200]: Attempting to create instance through low level multi-library class loader.[0m
+[32m[DEBUG] [1525379815.673622096]: rviz/FocusCamera maps to real class type rviz::FocusTool[0m
+[32m[DEBUG] [1525379815.673680220]: Instance of type rviz::FocusTool created.[0m
+[32m[DEBUG] [1525379815.673761797]: Loading '/opt/ros/lunar/share/rviz/icons/classes/FocusCamera.svg'[0m
+[32m[DEBUG] [1525379815.674670102]: Attempting to create UNMANAGED instance for class rviz/Measure.[0m
+[32m[DEBUG] [1525379815.674689751]: Attempting to create instance through low level multi-library class loader.[0m
+[32m[DEBUG] [1525379815.674697237]: rviz/Measure maps to real class type rviz::MeasureTool[0m
+[32m[DEBUG] [1525379815.674758711]: Instance of type rviz::MeasureTool created.[0m
+[32m[DEBUG] [1525379815.674830380]: Loading '/opt/ros/lunar/share/rviz/icons/classes/Measure.svg'[0m
+[32m[DEBUG] [1525379815.675528438]: Attempting to create UNMANAGED instance for class rviz/SetInitialPose.[0m
+[32m[DEBUG] [1525379815.675547128]: Attempting to create instance through low level multi-library class loader.[0m
+[32m[DEBUG] [1525379815.675554607]: rviz/SetInitialPose maps to real class type rviz::InitialPoseTool[0m
+[32m[DEBUG] [1525379815.675611111]: Instance of type rviz::InitialPoseTool created.[0m
+[32m[DEBUG] [1525379815.676675984]: Attempting to create UNMANAGED instance for class rviz/SetGoal.[0m
+[32m[DEBUG] [1525379815.676697100]: Attempting to create instance through low level multi-library class loader.[0m
+[32m[DEBUG] [1525379815.676705002]: rviz/SetGoal maps to real class type rviz::GoalTool[0m
+[32m[DEBUG] [1525379815.676769364]: Instance of type rviz::GoalTool created.[0m
+[32m[DEBUG] [1525379815.678830798]: Attempting to create UNMANAGED instance for class rviz/PublishPoint.[0m
+[32m[DEBUG] [1525379815.678851507]: Attempting to create instance through low level multi-library class loader.[0m
+[32m[DEBUG] [1525379815.678861041]: rviz/PublishPoint maps to real class type rviz::PointTool[0m
+[32m[DEBUG] [1525379815.679466631]: Instance of type rviz::PointTool created.[0m
+[32m[DEBUG] [1525379815.679556945]: Loading '/opt/ros/lunar/share/rviz/icons/classes/PublishPoint.svg'[0m
+[32m[DEBUG] [1525379815.680251689]: Attempting to create UNMANAGED instance for class rviz/Orbit.[0m
+[32m[DEBUG] [1525379815.680286939]: Attempting to create instance through low level multi-library class loader.[0m
+[32m[DEBUG] [1525379815.680295054]: rviz/Orbit maps to real class type rviz::OrbitViewController[0m
+[32m[DEBUG] [1525379815.680378461]: Instance of type rviz::OrbitViewController created.[0m
+[32m[DEBUG] [1525379815.683186780]: Loading '/opt/ros/lunar/share/rviz/icons/classes/Displays.svg'[0m
+[32m[DEBUG] [1525379815.684785186]: Loading '/opt/ros/lunar/share/rviz/icons/classes/Selection.png'[0m
+[32m[DEBUG] [1525379815.685756770]: Loading '/opt/ros/lunar/share/rviz/icons/classes/Tool Properties.png'[0m
+[32m[DEBUG] [1525379815.687096437]: Loading '/opt/ros/lunar/share/rviz/icons/classes/Views.svg'[0m
+[32m[DEBUG] [1525379815.689352368]: Loading '/opt/ros/lunar/share/rviz/icons/classes/Time.svg'[0m

@@ -5,6 +5,8 @@ ros::Publisher arena_publisher;
 visualization_msgs::MarkerArray marker_array_msg;
 visualization_msgs::MarkerArray arena_msg;
 
+const bool USE_IMU = true;
+
 /* Publish a coordinate transform definition, so it can be known by RVIZ */
 ros::Time publish_transform(const Eigen::Vector3d &point,
 	             const Eigen::Quaterniond &quat,
@@ -24,6 +26,7 @@ ros::Time publish_transform(const Eigen::Vector3d &point,
 }
 
 /* Create the MarkerArray message for the arena */
+// should break out into separate class...
 void create_arena_marker(ros::NodeHandle node) {
 
     arena_publisher = node.advertise<visualization_msgs::MarkerArray>("arena_marker", 1);
@@ -170,6 +173,7 @@ Eigen::Matrix3d get_ecef2enu_matrix(Eigen::Vector3d rEcef) {
 }
 
 // global variables to keep track of camera / user state :)
+// Unless otherwise specified, things are ENU coordinates around the refnet antenna 
 Eigen::Vector3d rover_position_ecef;
 Eigen::Vector3d rover_position_refnet_ecef;
 Eigen::Vector3d rover_position_refnet_enu;
@@ -178,24 +182,50 @@ Eigen::Vector3d rover_secondary_position_relative_enu;
 Eigen::Vector3d local_reference_refnet_enu;
 Eigen::Vector3d refnet_position_ecef;
 
+/* Global variables, only used when receiving local_odom messages (for now..) */
+Eigen::Vector3d rover_position_wrw;
+Eigen::Quaterniond rover_orientation_wrw;
+
+/* Arena (WRW) frame parameters */
 Eigen::Vector3d arena_position_refnet_ecef(-24.1875, 7.99, -4.95);
 Eigen::Vector3d arena_offset_enu(0, 0, -0.75);
 Eigen::Vector3d arena_position_refnet_enu(0, 0, 0);
+const double thetaWRW = 6.2*(3.141592654)/180;
+const double wrwMat[] =  {
+    cos(thetaWRW), -sin(thetaWRW), 0,
+    sin(thetaWRW),  cos(thetaWRW), 0,
+    0,              0,             1 
+};
+Eigen::Matrix3d arena_orientation_enu(wrwMat);
 
+/* State variables */
 Eigen::Quaterniond rover_orientation_enu;
 
 double rover_azimuth = 0;
 
 bool got_first_message = false;
 
+/* Publish all output ROS messages */
+/* the "world" reference frame is refnet ENU */
 void publish_output() {
     Eigen::Quaterniond identity;
     identity.setIdentity();
 
-    ros::Time now = publish_transform(rover_position_refnet_enu, rover_orientation_enu, "world", "rover"); 
+    ros::Time now;
+    if(USE_IMU) {
+        /* with IMU, rover position data (coming from local_odom) is specified in the wrw frame */
+        now = publish_transform(rover_position_wrw, rover_orientation_wrw, "arena", "rover"); 
+    } else {
+        /* Without IMU, we are using SBRTK/A2D directly, with a position specified in the refnet frame */
+        now = publish_transform(rover_position_refnet_enu, rover_orientation_enu, "world", "rover"); 
+    }
+
+
     publish_transform(local_reference_refnet_enu, identity, "world", "local");
     publish_transform(rover_secondary_position_relative_enu+rover_position_refnet_enu, rover_orientation_enu, "world", "secondary");
-    publish_transform(arena_position_refnet_enu, identity, "world", "arena");
+
+    /* publish arena orientation */
+    publish_transform(arena_position_refnet_enu, Eigen::Quaterniond(arena_orientation_enu), "world", "arena");
     marker_array_msg.markers[0].header.stamp = now;
     pub_vis.publish(marker_array_msg);
 
@@ -213,15 +243,17 @@ void on_attitude2d_message(const gbx_ros_bridge_msgs::Attitude2D msg) {
 
     double PI = 3.14159265358979;
 
+    if(!USE_IMU) {
     // note: WXYZ
-    rover_orientation_enu = Eigen::Quaterniond(cos((msg.azAngle - PI/2.0)/2), 0, 0, 
+        rover_orientation_enu = Eigen::Quaterniond(cos((msg.azAngle - PI/2.0)/2), 0, 0, 
             -sin((msg.azAngle - PI/2.0)/2)); 
 
-    rover_secondary_position_relative_ecef[0] = msg.rx; 
-    rover_secondary_position_relative_ecef[1] = msg.ry; 
-    rover_secondary_position_relative_ecef[2] = msg.rz; 
+        rover_secondary_position_relative_ecef[0] = msg.rx; 
+        rover_secondary_position_relative_ecef[1] = msg.ry; 
+        rover_secondary_position_relative_ecef[2] = msg.rz; 
 
-    publish_output();
+        publish_output();
+    }
 }
 
 void on_sbrtk_message(const gbx_ros_bridge_msgs::SingleBaselineRTK msg) {
@@ -230,36 +262,48 @@ void on_sbrtk_message(const gbx_ros_bridge_msgs::SingleBaselineRTK msg) {
     /* Only accept fixed solutions */
     if(msg.bitfield != 7) return;
 
+        /* Recover Refnet ECEF position based on its r{x,y,z} messages
+         * (yes, this is a bit silly) */
+        refnet_position_ecef[0] = msg.rxRov - msg.rx;
+        refnet_position_ecef[1] = msg.ryRov - msg.ry;
+        refnet_position_ecef[2] = msg.rzRov - msg.rz;
 
-    /* Recover Refnet ECEF position based on its r{x,y,z} messages
-     * (yes, this is a bit silly) */
-    refnet_position_ecef[0] = msg.rxRov - msg.rx;
-    refnet_position_ecef[1] = msg.ryRov - msg.ry;
-    refnet_position_ecef[2] = msg.rzRov - msg.rz;
+        Eigen::Matrix3d xform = get_ecef2enu_matrix(refnet_position_ecef);
 
-    Eigen::Matrix3d xform = get_ecef2enu_matrix(refnet_position_ecef);
+        /* Rover ECEF position (relative to refnet) */
+        rover_position_refnet_ecef[0] = msg.rx;
+        rover_position_refnet_ecef[1] = msg.ry;
+        rover_position_refnet_ecef[2] = msg.rz;
 
-    /* Rover ECEF position (relative to refnet) */
-    rover_position_refnet_ecef[0] = msg.rx;
-    rover_position_refnet_ecef[1] = msg.ry;
-    rover_position_refnet_ecef[2] = msg.rz;
+        rover_position_refnet_enu = xform * rover_position_refnet_ecef;
+        rover_secondary_position_relative_enu = xform * rover_secondary_position_relative_ecef;
 
-    rover_position_refnet_enu = xform * rover_position_refnet_ecef;
-    rover_secondary_position_relative_enu = xform * rover_secondary_position_relative_ecef;
+        /* Calculate arena ENU position */
+        arena_position_refnet_enu = (xform * arena_position_refnet_ecef) + arena_offset_enu;
 
-    /* Calculate arena ENU position */
-    arena_position_refnet_enu = (xform * arena_position_refnet_ecef) + arena_offset_enu;
+        if(!got_first_message) {
+            local_reference_refnet_enu = rover_position_refnet_enu;
+            local_reference_refnet_enu[2] -= 1;
+            got_first_message = true;
+        }   
 
-    if(!got_first_message) {
-        local_reference_refnet_enu = rover_position_refnet_enu;
-        local_reference_refnet_enu[2] -= 1;
-        got_first_message = true;
-    }   
-
-    publish_output();
+        publish_output();
 }
 
+void on_local_odom_message(const  nav_msgs::Odometry msg) {
+    ROS_INFO("[gnss_visualization] Received local_odom message!");
 
+    if(USE_IMU) {
+        rover_position_wrw[0] = msg.pose.pose.position.x;
+        rover_position_wrw[1] = msg.pose.pose.position.y;
+        rover_position_wrw[2] = msg.pose.pose.position.z;
+    
+        rover_orientation_wrw = Eigen::Quaterniond(msg.pose.pose.orientation.w, msg.pose.pose.orientation.x, 
+                msg.pose.pose.orientation.y, msg.pose.pose.orientation.z);
+
+        publish_output();
+    }
+}
 /* Coordinate frames according to rviz: 
  *
  * refnet: Refnet centered ENU (default)
@@ -305,6 +349,8 @@ int main(int argc, char** argv){
 	ros::Subscriber sbrtk_subscriber = node.subscribe<gbx_ros_bridge_msgs::SingleBaselineRTK>
         ("/yoga/SingleBaselineRTK", 10, on_sbrtk_message);
 
+	ros::Subscriber imunode_subscriber = node.subscribe<nav_msgs::Odometry>
+        ("/yoga/local_odom", 10, on_local_odom_message);
 	// ROS loop that starts callbacks/publishers
 
 	const double rate = 200.0;
