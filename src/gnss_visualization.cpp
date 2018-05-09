@@ -7,7 +7,8 @@
  *                   V
  *                 refnet         (ENU frame, centered on WRW0 antenna)
  *                   |
- *         +---------+-----+--> local ("Local" frame, generated on first position fix)
+ *         +---------+-----+--> local ("Local" frame, generated on first position fix, this is used so if you start in an unknown
+ *         |               |            location, the visualization isn't just blank, most stuff should use the "wrw" frame)
  *         V               |       
  *        wrw              V            ("WRW" frame - centered on arena, rotated 6ish degrees from ENU. Used for arena/machine games stuff)
  *         |           yoga_primary     (Yoga GNSS primary position - refnet-relative ENU, based directly from SBRTK message data)
@@ -25,7 +26,7 @@ Eigen::Vector3d     refnet_position_ecef;       /* Refnet antenna position in EC
 Eigen::Quaterniond  refnet_orientation_ecef;    /* On receipt of refnet_position_ecef, this quaternion is calculated from the Recef_enu matrix
                                                  * to generate an ENU frame centered at the refnet antenna */
 
-Eigen::Vector3d wrw_position_ecef(-742017.72, -5462221.485, 3198016.74);
+Eigen::Vector3d     wrw_position_ecef(-742017.72, -5462221.485, 3198016.74);
 Eigen::Vector3d     wrw_position_refnet;        /* WRW (arena center) position in refnet ENU frame. */
 Eigen::Quaterniond  wrw_orientation_refnet;     /* WRW frame orientation in refnet ENU frame. */
 
@@ -44,6 +45,7 @@ Eigen::Matrix3d Recef2enu_refnet; /* Rotation matrix to ENU at refnet antenna. p
 
 /* Arena (WRW) frame parameters */
 Eigen::Vector3d arena_position_refnet_ecef(-24.1875, 7.99, -4.95);
+
 Eigen::Vector3d arena_offset_enu(0, 0, -0.75);
 const double thetaWRW = 6.2*(3.141592654)/180;
 const double wrwMat[] =  {
@@ -52,8 +54,6 @@ const double wrwMat[] =  {
     0,              0,             1 
 };
 Eigen::Matrix3d arena_orientation_enu(wrwMat);
-
-double rover_azimuth = 0;
 
 bool got_first_message = false;
 
