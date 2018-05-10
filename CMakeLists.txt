@@ -64,6 +64,8 @@ include_directories(
 ##### gnss_visualization ROS node #####
 add_executable(gnss_visualization
                src/gnss_visualization.cpp
+               src/arena_viz.cpp
+               src/quadcopter_viz.cpp
                src/helper.cpp)
 target_link_libraries(gnss_visualization ${catkin_LIBRARIES})
 add_dependencies(gnss_visualization ${catkin_EXPORTED_TARGETS})

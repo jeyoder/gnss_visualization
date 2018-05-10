@@ -13,9 +13,22 @@
 
     <!-- Topics to subscribe to object poses -->
     <param name="object_pose_topic" value="/yoga/pose"/>
+    
+    <param name="arena_center_ecef_x" value="-742015.08" />
+    <param name="arena_center_ecef_y" value="-5462218.80" />
+    <param name="arena_center_ecef_z" value="3198013.75" />
+
+    <!-- Arena parameters -->
+    <param name="balloon_1_x" value="-7.5" />
+    <param name="balloon_1_y" value="0" />
+    <param name="balloon_1_z" value="2.0" />
+
+    <param name="balloon_2_x" value="7.5" />
+    <param name="balloon_2_y" value="0" />
+    <param name="balloon_2_z" value="2.0" />
 
   </node>
 
-  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find gnss_visualization)/rviz/rviz_config.rviz"/>
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find gnss_visualization)/rviz/Overview.rviz"/>
 </launch>
 

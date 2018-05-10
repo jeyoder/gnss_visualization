@@ -14,4 +14,6 @@
 #include "gbx_ros_bridge_msgs/SingleBaselineRTK.h"
 #include "nav_msgs/Odometry.h"
 
+extern std::vector<std::string> quad_names;
+
 #endif

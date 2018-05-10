@@ -1,4 +1,9 @@
 #include "gnss_visualization/gnss_visualization.h"
+#include "gnss_visualization/arena_viz.h"
+#include "gnss_visualization/quadcopter_viz.h"
+
+#include <string>
+#include <vector>
 
 /* Coordinate frame tree! This is important *
  *
@@ -26,8 +31,8 @@ Eigen::Vector3d     refnet_position_ecef;       /* Refnet antenna position in EC
 Eigen::Quaterniond  refnet_orientation_ecef;    /* On receipt of refnet_position_ecef, this quaternion is calculated from the Recef_enu matrix
                                                  * to generate an ENU frame centered at the refnet antenna */
 
-Eigen::Vector3d     wrw_position_ecef(-742017.72, -5462221.485, 3198016.74);
-Eigen::Vector3d     wrw_position_refnet;        /* WRW (arena center) position in refnet ENU frame. */
+Eigen::Vector3d     wrw_position_ecef(-742015.08, -5462218.80, 3198013.75);
+Eigen::Vector3d     wrw_position_refnet(0,0,0);        /* WRW (arena center) position in refnet ENU frame. */
 Eigen::Quaterniond  wrw_orientation_refnet;     /* WRW frame orientation in refnet ENU frame. */
 
 Eigen::Vector3d     yoga_primary_position_refnet; /* Yoga primary GNSS antenna position, in refnet ENU frame. Calculated on receipt of SBRTK message.
@@ -36,15 +41,14 @@ Eigen::Vector3d     yoga_primary_position_refnet; /* Yoga primary GNSS antenna p
 
 Eigen::Vector3d     yoga_secondary_position_primary; /* Yoga secondary GNSS antenna position, in the primary antenna ENU frame. Calculated on A2D message. */
 
-Eigen::Vector3d     yoga_odom_position_wrw;
-Eigen::Quaterniond  yoga_odom_orientation_wrw;
+Eigen::Vector3d     yoga_odom_position_wrw(0, 0, 0);
+Eigen::Quaterniond  yoga_odom_orientation_wrw(0, 1, 0, 0);
 
 Eigen::Vector3d     local_position_refnet;
 
 Eigen::Matrix3d Recef2enu_refnet; /* Rotation matrix to ENU at refnet antenna. populated on receipt of sbrtk message. */
 
 /* Arena (WRW) frame parameters */
-Eigen::Vector3d arena_position_refnet_ecef(-24.1875, 7.99, -4.95);
 
 Eigen::Vector3d arena_offset_enu(0, 0, -0.75);
 const double thetaWRW = 6.2*(3.141592654)/180;
@@ -55,12 +59,26 @@ const double wrwMat[] =  {
 };
 Eigen::Matrix3d arena_orientation_enu(wrwMat);
 
+
+/* Quadcopter list */
+std::vector<std::string> quad_names = {
+    "phoenix",
+    "hippogriff",
+    "gryphon",
+    "pegasus",
+    "harry",
+    "ron",
+    "hermione",
+    "luna"
+};
+
 bool got_first_message = false;
 
 ros::Publisher pub_vis;	 // Publisher for visualization in RVIZ
-ros::Publisher arena_publisher;
 visualization_msgs::MarkerArray marker_array_msg;
-visualization_msgs::MarkerArray arena_msg;
+
+ArenaVisualization arena_viz;
+QuadcopterVisualization quad_viz;
 
 /* Convenience method to publish a transform to ROS, based on an offset & rotation from a given parent frame. */
 ros::Time publish_transform(const Eigen::Vector3d &point,
@@ -79,78 +97,6 @@ ros::Time publish_transform(const Eigen::Vector3d &point,
                              parent_frame, child_frame));
   return time_now;
 }
-
-/* Create the MarkerArray message for the arena */
-// should break out into separate class...
-void create_arena_marker(ros::NodeHandle node) {
-
-    arena_publisher = node.advertise<visualization_msgs::MarkerArray>("arena_marker", 1);
-
-    visualization_msgs::MarkerArray msg;
-    visualization_msgs::Marker marker;
-
-    auto arena_frame = "wrw";
-
-    marker.header.frame_id = "wrw";
-    marker.header.stamp = ros::Time::now();
-
-    marker.type = visualization_msgs::Marker::CUBE;
-    marker.ns = "wrw";
-    marker.id = 0;
-    marker.action = visualization_msgs::Marker::ADD;
-
-    marker.pose.position.x = 0;
-    marker.pose.position.y = 0;
-    marker.pose.position.z = -0.05;
-    marker.pose.orientation.w = 1;
-    marker.pose.orientation.x = 0;
-    marker.pose.orientation.y = 0;
-    marker.pose.orientation.z = 0;
-
-    marker.scale.x = 20;
-    marker.scale.y = 5;
-    marker.scale.z = 0.05;
-
-    marker.color.r = 0;
-    marker.color.g = 1;
-    marker.color.b = 0;
-    marker.color.a = 0.5;
-
-    msg.markers.push_back(marker);
-
-    visualization_msgs::Marker chimney;
-
-    chimney.header.frame_id = "wrw";
-    chimney.header.stamp = ros::Time::now();
-
-    chimney.type = visualization_msgs::Marker::CUBE;
-    chimney.ns = "chimney";
-    chimney.id = 1;
-    chimney.action = visualization_msgs::Marker::ADD;
-
-    chimney.pose.position.x = 0;
-    chimney.pose.position.y = 0;
-    chimney.pose.position.z = +0.5;
-    chimney.pose.orientation.w = 1;
-    chimney.pose.orientation.x = 0;
-    chimney.pose.orientation.y = 0;
-    chimney.pose.orientation.z = 0;
-
-    chimney.scale.x = 0.5;
-    chimney.scale.y = 0.5;
-    chimney.scale.z = 1;
-
-    chimney.color.r = 0.5;
-    chimney.color.g = 0.5;
-    chimney.color.b = 0;
-    chimney.color.a = 0.9;
-    chimney.lifetime = ros::Duration();
-
-    msg.markers.push_back(chimney);
-
-    arena_msg = msg;
-}
-
 
 /* Create a mesh-based rviz Marker */
 void MeshMarker(const Eigen::Vector3d &point,
@@ -260,14 +206,12 @@ void publish_output() {
     marker_array_msg.markers[0].header.stamp = now;
     pub_vis.publish(marker_array_msg);
 
-    arena_msg.markers[0].header.stamp = now;
-    arena_msg.markers[1].header.stamp = now;
-    arena_publisher.publish(arena_msg);
+    arena_viz.publish();
+    quad_viz.publish();
 }
 
 
 void on_attitude2d_message(const gbx_ros_bridge_msgs::Attitude2D msg) {
-    ROS_INFO("[gnss_visualization] Received Attitude2D message!");
 
     if(msg.bitfield != 7) return;
 //    rover_position_ecef[0] = msg.azAngle;
@@ -290,7 +234,6 @@ void on_attitude2d_message(const gbx_ros_bridge_msgs::Attitude2D msg) {
 }
 
 void on_sbrtk_message(const gbx_ros_bridge_msgs::SingleBaselineRTK msg) {
-    ROS_INFO("[gnss_visualization] Received SingleBaselineRTK message!");
 
     /* Only accept fixed solutions */
     if(msg.bitfield != 7) return;
@@ -321,7 +264,6 @@ void on_sbrtk_message(const gbx_ros_bridge_msgs::SingleBaselineRTK msg) {
 }
 
 void on_local_odom_message(const  nav_msgs::Odometry msg) {
-    ROS_INFO("[gnss_visualization] Received local_odom message!");
 
     yoga_odom_position_wrw[0] = msg.pose.pose.position.x;
     yoga_odom_position_wrw[1] = msg.pose.pose.position.y;
@@ -333,6 +275,40 @@ void on_local_odom_message(const  nav_msgs::Odometry msg) {
     publish_output();
 }
 
+/* Event handlers for messages from quads */
+void on_quad_sbrtk_message(const gbx_ros_bridge_msgs::SingleBaselineRTK::ConstPtr& msg, std::string& quad_name) {
+//    ROS_INFO("[gnss_visualization] Received remote SBRTK message: ");
+
+    Eigen::Quaterniond identity;
+    identity.setIdentity();
+
+    Eigen::Vector3d pos_ecef_rel(msg->rx, msg->ry, msg->rz);
+    Eigen::Vector3d pos_refnet = Recef2enu_refnet * pos_ecef_rel;
+
+    publish_transform(pos_refnet, identity, "refnet", quad_name+"_primary"); 
+}
+
+void on_quad_a2d_message(const gbx_ros_bridge_msgs::Attitude2D::ConstPtr& msg, std::string& quad_name) {
+ //   ROS_INFO("[gnss_visualization] Received remote A2D message: ");
+
+    Eigen::Quaterniond identity;
+    identity.setIdentity();
+
+    Eigen::Vector3d pos_ecef_rel(msg->rx, msg->ry, msg->rz);
+    Eigen::Vector3d pos_refnet = Recef2enu_refnet * pos_ecef_rel;
+
+    publish_transform(pos_refnet, identity, "refnet", quad_name+"_secondary"); 
+}
+
+void on_quad_local_odom_message(const nav_msgs::Odometry::ConstPtr& msg, std::string& quad_name) {
+
+    Eigen::Vector3d pos_wrw(msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z);
+    Eigen::Quaterniond orientation_wrw(msg->pose.pose.orientation.w, msg->pose.pose.orientation.x, 
+            msg->pose.pose.orientation.y, msg->pose.pose.orientation.z);
+
+    publish_transform(pos_wrw, orientation_wrw, "wrw", quad_name);
+}
+
 /* Coordinate frames according to rviz: 
  *
  * refnet: Refnet centered ENU (default)
@@ -342,6 +318,16 @@ int main(int argc, char** argv){
 	ros::init(argc, argv, "gnss_visualization");
     ros::NodeHandle node = ros::NodeHandle("~");
 	ROS_INFO("gnss_visualization node started!");
+
+    /* Load ROS launch parameters */
+    double arena_center_ecef_x, arena_center_ecef_y, arena_center_ecef_z;
+    node.getParam("arena_center_ecef_x", arena_center_ecef_x);
+    node.getParam("arena_center_ecef_y", arena_center_ecef_y);
+    node.getParam("arena_center_ecef_z", arena_center_ecef_z);
+    wrw_position_ecef[0] = arena_center_ecef_x;
+    wrw_position_ecef[1] = arena_center_ecef_y;
+    wrw_position_ecef[2] = arena_center_ecef_z;
+    std::cout << "Centering wrw frame on "<<arena_center_ecef_x<<" "<<arena_center_ecef_y<<" "<<arena_center_ecef_z << "\n";
 
 	// Get 3d file for rendering
 	std::string file_3d;
@@ -369,7 +355,9 @@ int main(int argc, char** argv){
 	pub_vis = node.advertise
 		<visualization_msgs::MarkerArray>("rover_marker", 1);
 
-    create_arena_marker(node);
+    // Initialize sub visualizations 
+    arena_viz.initialize(node);
+    quad_viz.initialize(node);
 
 	// Set subscribers to ppengine output messages
 	ros::Subscriber a2d_subscriber = node.subscribe<gbx_ros_bridge_msgs::Attitude2D>
@@ -380,6 +368,22 @@ int main(int argc, char** argv){
 
 	ros::Subscriber imunode_subscriber = node.subscribe<nav_msgs::Odometry>
         ("/yoga/local_odom", 10, on_local_odom_message);
+    
+    std::vector<ros::Subscriber> subs;
+    // Subscribe to what the quads are saying 
+    for(std::string& name : quad_names) {
+        ROS_INFO("Registering subscription for");
+
+        subs.push_back(node.subscribe<gbx_ros_bridge_msgs::SingleBaselineRTK>
+            ("/" + name + "/SingleBaselineRTK", 10, boost::bind(on_quad_sbrtk_message, _1, name)));
+
+        subs.push_back(node.subscribe<gbx_ros_bridge_msgs::Attitude2D>
+            ("/" + name + "/Attitude2D", 10, boost::bind(on_quad_a2d_message, _1, name)));
+
+        subs.push_back(node.subscribe<nav_msgs::Odometry>
+            ("/" + name + "/local_odom", 10, boost::bind(on_quad_local_odom_message, _1, name)));
+    }
+
 	// ROS loop that starts callbacks/publishers
 
 	const double rate = 200.0;
