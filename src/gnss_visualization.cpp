@@ -206,8 +206,6 @@ void publish_output() {
     marker_array_msg.markers[0].header.stamp = now;
     pub_vis.publish(marker_array_msg);
 
-    arena_viz.publish();
-    quad_viz.publish();
 }
 
 
@@ -386,11 +384,13 @@ int main(int argc, char** argv){
 
 	// ROS loop that starts callbacks/publishers
 
-	const double rate = 200.0;
+	const double rate = 20.0;
 	ros::Rate loop_rate(rate);
 
 	while (ros::ok()) {
 		ros::spinOnce();
+        arena_viz.publish();
+        quad_viz.publish();
 		loop_rate.sleep();
 	}
 
