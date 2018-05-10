@@ -26,6 +26,8 @@ class ArenaVisualization {
 
         void create_marker_ecef(Eigen::Vector3d pos, Eigen::Vector3d scale, double yaw,
                 double r, double g, double b, double a);
+
+        void create_balloon(Eigen::Vector3d pos, double r, double g, double b, double a);
 };
 
 #endif
