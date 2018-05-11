@@ -60,7 +60,7 @@ namespace gnss_visualization_camera_controller {
         look_up.FromAngleAxis(look_up_angle, look_up_axis);
 
         camera_->setPosition(camera_position_);
-        camera_->setOrientation(look_up * camera_orientation_);
+        camera_->setOrientation (camera_orientation_ * look_up );
 	}
 
 }
